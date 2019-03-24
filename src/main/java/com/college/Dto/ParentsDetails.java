@@ -1,4 +1,4 @@
-package com.college.Dto;
+package com.college.dto;
 
 import java.io.Serializable;
 

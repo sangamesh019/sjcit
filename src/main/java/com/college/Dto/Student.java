@@ -1,14 +1,16 @@
-package com.college.Dto;
+package com.college.dto;
 
 import java.io.Serializable;
 import java.util.Calendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -29,6 +31,7 @@ public class Student implements Serializable {
 	private Long id;
 
 	@NotBlank
+	@Valid
 	private String fName;
 	private String mName;
 	@NotNull
@@ -40,12 +43,15 @@ public class Student implements Serializable {
 	@NotNull
 	private String pAddress;
 	private String categaroy;
+	@Column(unique=true)
 	private String branch;
 	private String sem;
 	private String adhNumber;
 	@NotNull
+	@Column(unique=true)
 	private String mNumber;
 	@NotNull
+	@Column(unique=true)
 	private String email;
 
 	private ParentsDetails parentsDetails;
