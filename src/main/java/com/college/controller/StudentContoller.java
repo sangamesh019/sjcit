@@ -40,6 +40,12 @@ public class StudentContoller {
 		List<Student> studs = service.getStudent(email);
 		return studs;
 	}
+	
+	@GetMapping(value = "/students")
+	public List<Student> getAllStudent() {
+		List<Student> studs = service.getAllStudent();
+		return studs;
+	}
 
 	
 }

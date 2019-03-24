@@ -3,8 +3,18 @@ package com.college.controller;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.util.List;
 
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,18 +24,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.college.dto.Faculty;
 import com.college.dto.StuAssignment;
+import com.college.service.StudentService;
 
 @RestController
 @RequestMapping(value = "/college")
 public class FacultyController {
 
+	@Autowired
+	StudentService service;
+	
 	@PostMapping(value = "/signUpFaculty")
 	public String setFaculty(@RequestBody Faculty faculty) {
 		System.out.println(faculty.getfName());
 		return "faculty";
 	}
 	
-	@PostMapping(value = "/uploadAssignment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	/*@PostMapping(value = "/uploadAssignment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public String uploadAssignment(StuAssignment assignment, @RequestParam("file") MultipartFile file) throws IOException {
 		System.out.println(assignment.getBranch());
 		File convertFile = new File("g:/testFileupload/" + assignment.getBranch() +"_"+ assignment.getSem() +"_"+ assignment.getSubject());
@@ -33,7 +47,35 @@ public class FacultyController {
 		FileOutputStream fout = new FileOutputStream(convertFile);
 		fout.write(file.getBytes());
 		fout.close();
+		assignment.setFileName(assignment.getBranch() +"_"+ assignment.getSem() +"_"+ assignment.getSubject());
+		assignment.setDocument(convertFile);
+		service.uploadAssignment(assignment);
 		return "File is upload successfully";
+	}*/
+	
+	@PostMapping(value = "/uploadAssignment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	public String uploadAssignment(StuAssignment assignment, @RequestParam("file") MultipartFile file) throws IOException {
+
+		assignment.setFileName(assignment.getBranch() +"_"+ assignment.getSem() +"_"+ assignment.getSubject());
+		assignment.setData(file.getBytes());
+		assignment.setDocumentType(file.getContentType());
+		service.uploadAssignment(assignment);
+		return "File is upload successfully";
+	}
+	
+	@GetMapping(value = "/downloadAssignment/{file}")
+	public ResponseEntity<ByteArrayResource> DownloadAssignment(@PathVariable("file") String file) throws IOException {
+		StuAssignment assignment  = service.downloadAssignment(file).get(0);
+		return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(assignment.getDocumentType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + assignment.getFileName() + "\"")
+                .body(new ByteArrayResource(assignment.getData()));
+	}
+	
+	@GetMapping(value = "/listAllAssignments")
+	public List<StuAssignment> listAllAssignment() throws IOException {
+		List<StuAssignment> assignment  = service.listAllAssignment();
+		return assignment;
 	}
 	
 	@PostMapping(value = "/uploadResults", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
