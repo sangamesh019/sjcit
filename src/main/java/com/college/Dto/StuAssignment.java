@@ -1,6 +1,5 @@
 package com.college.dto;
 
-import java.io.File;
 import java.io.Serializable;
 
 import javax.persistence.Entity;

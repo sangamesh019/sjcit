@@ -16,12 +16,10 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "student")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
 public class Student implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -43,7 +41,6 @@ public class Student implements Serializable {
 	@NotNull
 	private String pAddress;
 	private String categaroy;
-	@Column(unique=true)
 	private String branch;
 	private String sem;
 	private String adhNumber;
