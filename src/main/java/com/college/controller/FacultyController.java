@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,30 +42,20 @@ public class FacultyController {
 		return "faculty";
 	}
 	
-	/*@PostMapping(value = "/uploadAssignment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public String uploadAssignment(StuAssignment assignment, @RequestParam("file") MultipartFile file) throws IOException {
-		System.out.println(assignment.getBranch());
-		File convertFile = new File("g:/testFileupload/" + assignment.getBranch() +"_"+ assignment.getSem() +"_"+ assignment.getSubject());
-		convertFile.createNewFile();
-		FileOutputStream fout = new FileOutputStream(convertFile);
-		fout.write(file.getBytes());
-		fout.close();
-		assignment.setFileName(assignment.getBranch() +"_"+ assignment.getSem() +"_"+ assignment.getSubject());
-		assignment.setDocument(convertFile);
-		service.uploadAssignment(assignment);
-		return "File is upload successfully";
-	}*/
-	
 	@PostMapping(value = "/uploadAssignment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public boolean uploadAssignment(@RequestParam("file") MultipartFile file) throws IOException {
-		service.uploadAssignment(file);
-		return true;
-	}
-	
-	@PostMapping(value = "/uploadAssignmentDetails", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public StuAssignment test(@RequestBody StuAssignment assignment) throws IOException {
-		service.uploadAssignmentDetails(assignment);
-		return assignment;
+	public ResponseEntity<StuAssignment> uploadAssignment(@RequestParam("file") MultipartFile file, 
+			@RequestParam("branch") String branch,
+			@RequestParam("sem") String sem,
+			@RequestParam("subject") String subject,
+			@RequestParam("section") String section) throws IOException {
+		StuAssignment assignment = new StuAssignment();
+		assignment.setBranch(branch);
+		assignment.setSem(sem);
+		assignment.setSubject(subject);
+		assignment.setSection(section);
+		
+		StuAssignment assignment1 = service.uploadAssignment(file, assignment);
+		return new ResponseEntity<StuAssignment>(assignment1, HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "/downloadAssignment/{file}")

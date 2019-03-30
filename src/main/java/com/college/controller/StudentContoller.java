@@ -1,5 +1,6 @@
 package com.college.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.college.dto.Student;
 import com.college.service.StudentService;
@@ -30,6 +33,13 @@ public class StudentContoller {
 	@PostMapping(value = "/signUpStudent", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Student> setStudent(@Valid @RequestBody Student student) {
 		Student status = service.signUpStudent(student);
+		return new ResponseEntity<Student>(status, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/signUpStudentPhoto", consumes =  MediaType.MULTIPART_FORM_DATA_VALUE)
+	public ResponseEntity<Student> setStudentPhoto(@RequestParam("file") MultipartFile studentPhoto,
+			@RequestParam("number") String studentNumber) throws IOException {
+		Student status = service.signUpStudentPhoto(studentPhoto, studentNumber);
 		return new ResponseEntity<Student>(status, HttpStatus.OK);
 	}
 	

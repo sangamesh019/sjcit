@@ -24,8 +24,6 @@ public class StudentService {
 	@Autowired
 	AssignmentRepository assignmentRepository;
 	
-	StuAssignment stuAssignment; 
-
 	public Student signUpStudent(Student student) {
 		if (!studentRepository.findByEmail(student.getEmail()).isEmpty()
 				|| !studentRepository.findByMNumber(student.getmNumber()).isEmpty()) {
@@ -33,8 +31,14 @@ public class StudentService {
 					"Email or mobile # id already exists " + student.getEmail() + "/ " + student.getmNumber());
 		}
 		Student save = studentRepository.save(student);
-//		ResponseEntity<save>
 		return save;
+	}
+	
+	public Student signUpStudentPhoto(MultipartFile photo, String phNumber) throws IOException {
+		List<Student> stuList = studentRepository.findByMNumber(phNumber);
+		stuList.get(0).setPhoto(photo.getBytes());
+		Student saveUpdate = studentRepository.save(stuList.get(0));
+		return saveUpdate;
 	}
 
 	public List<Student> getStudent(String name) {
@@ -47,16 +51,13 @@ public class StudentService {
 		return save;
 	}
 
-	public String uploadAssignment(MultipartFile file) throws IOException {
-		this.stuAssignment.setFileName(this.stuAssignment.getBranch() +"_"+ this.stuAssignment.getSem() +"_"+ this.stuAssignment.getSubject());
-		this.stuAssignment.setData(file.getBytes());
-		this.stuAssignment.setDocumentType(file.getContentType());
-		StuAssignment s = assignmentRepository.saveAndFlush(this.stuAssignment);
-		return "success";
-	}
-	
-	public void uploadAssignmentDetails(StuAssignment stuAssignment) {
-		this.stuAssignment = stuAssignment;
+	public StuAssignment uploadAssignment(MultipartFile file, StuAssignment stuAssignment) throws IOException {
+		stuAssignment.setFileName(stuAssignment.getBranch() +"_"+ stuAssignment.getSem() +"_"+ stuAssignment.getSubject());
+		stuAssignment.setData(file.getBytes());
+		stuAssignment.setDocumentType(file.getContentType());
+		StuAssignment s = assignmentRepository.saveAndFlush(stuAssignment);
+		
+		return s;
 	}
 
 	public List<StuAssignment> downloadAssignment(String fileName) {
@@ -66,25 +67,14 @@ public class StudentService {
 	
 	public List<StuAssignment> listAllAssignment() {
 		List<StuAssignment> listOfAssignResp = assignmentRepository.findAll();
-		
-//		List<StuAssignment> listOfAssign = new ArrayList<StuAssignment>();
+
 		StuAssignment find = new StuAssignment();
 		find.setBranch("EEE");
 		find.setSem("1");
 		
 		List<StuAssignment> listOfAssign = listOfAssignResp.stream()
 							.filter(assignmentFilter -> (assignmentFilter.getBranch().equals("EEE") && assignmentFilter.getSem().equals("1")))
-							.collect(Collectors.toList());
-		
-//		listOfAssignResp.stream().forEach(assignment -> {
-//			StuAssignment stuAssignment = new StuAssignment();
-//			stuAssignment.setBranch(assignment.getBranch());
-//			stuAssignment.setFileName(assignment.getFileName());
-//			stuAssignment.setSem(assignment.getSem());
-//			stuAssignment.setSubject(assignment.getSubject());
-//			listOfAssign.add(stuAssignment);
-//		});
-		
+							.collect(Collectors.toList());		
 		return listOfAssign;
 	}
 }

@@ -44,6 +44,7 @@ public class Student implements Serializable {
 	private String categaroy;
 	private String branch;
 	private String sem;
+	@Column(unique=true)
 	private String adhNumber;
 	@NotNull
 	@Column(unique=true)
@@ -51,7 +52,7 @@ public class Student implements Serializable {
 	@NotNull
 	@Column(unique=true)
 	private String email;
-	@NotNull
+//	@NotNull
 //	@Column(unique=true)
 	@Lob
 	private byte[] photo;
