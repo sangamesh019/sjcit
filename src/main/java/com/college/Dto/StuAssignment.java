@@ -1,6 +1,5 @@
 package com.college.dto;
 
-import java.io.File;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
@@ -34,7 +33,8 @@ public class StuAssignment implements Serializable {
 	String subject;
 	String section;
 	String fileName;
-	String documentType;
+	String  documentType;
+	
 	@Lob
 	private byte[] data;
 

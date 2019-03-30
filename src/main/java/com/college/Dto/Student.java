@@ -1,6 +1,7 @@
 package com.college.dto;
 
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.Calendar;
 
 import javax.persistence.Column;
@@ -9,13 +10,13 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 
 @Entity
 @Table(name = "student")
@@ -36,7 +37,7 @@ public class Student implements Serializable {
 	private String lName;
 	private String gender;
 	@NotNull
-	private Calendar DOB;
+	private String dob;
 	private String cAddress;
 	@NotNull
 	private String pAddress;
@@ -50,6 +51,18 @@ public class Student implements Serializable {
 	@NotNull
 	@Column(unique=true)
 	private String email;
+	@NotNull
+//	@Column(unique=true)
+	@Lob
+	private byte[] photo;
+
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
+	}
 
 	private ParentsDetails parentsDetails;
 
@@ -93,12 +106,12 @@ public class Student implements Serializable {
 		this.gender = gender;
 	}
 
-	public Calendar getDOB() {
-		return DOB;
+	public String getDob() {
+		return dob;
 	}
 
-	public void setDOB(Calendar dOB) {
-		DOB = dOB;
+	public void setDob(String dob) {
+		this.dob = dob;
 	}
 
 	public String getcAddress() {

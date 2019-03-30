@@ -13,6 +13,7 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,7 @@ import com.college.dto.Faculty;
 import com.college.dto.StuAssignment;
 import com.college.service.StudentService;
 
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping(value = "/college")
 public class FacultyController {
@@ -54,13 +56,15 @@ public class FacultyController {
 	}*/
 	
 	@PostMapping(value = "/uploadAssignment", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public String uploadAssignment(StuAssignment assignment, @RequestParam("file") MultipartFile file) throws IOException {
-
-		assignment.setFileName(assignment.getBranch() +"_"+ assignment.getSem() +"_"+ assignment.getSubject());
-		assignment.setData(file.getBytes());
-		assignment.setDocumentType(file.getContentType());
-		service.uploadAssignment(assignment);
-		return "File is upload successfully";
+	public boolean uploadAssignment(@RequestParam("file") MultipartFile file) throws IOException {
+		service.uploadAssignment(file);
+		return true;
+	}
+	
+	@PostMapping(value = "/uploadAssignmentDetails", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public StuAssignment test(@RequestBody StuAssignment assignment) throws IOException {
+		service.uploadAssignmentDetails(assignment);
+		return assignment;
 	}
 	
 	@GetMapping(value = "/downloadAssignment/{file}")
