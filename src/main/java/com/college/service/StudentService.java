@@ -77,4 +77,10 @@ public class StudentService {
 							.collect(Collectors.toList());		
 		return listOfAssign;
 	}
+	
+	public boolean loginUser(String usn, String pass){
+		Student stu = studentRepository.findByUsnAndPassword(usn, pass);
+		boolean result = (stu != null ? true : false);
+		return result;
+	}
 }

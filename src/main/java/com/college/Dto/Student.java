@@ -56,6 +56,26 @@ public class Student implements Serializable {
 //	@Column(unique=true)
 	@Lob
 	private byte[] photo;
+	
+	@NotNull
+	private String usn;
+	private String password;
+	
+	public String getUsn() {
+		return usn;
+	}
+
+	public void setUsn(String usn) {
+		this.usn = usn;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 	public byte[] getPhoto() {
 		return photo;

@@ -17,4 +17,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	
 	@Override
 	List<Student> findAll();
+	
+	List<Student> findByEmailAndMNumber(String email, String nbr);
+	Student findByUsnAndPassword(String usn, String password);
 }
