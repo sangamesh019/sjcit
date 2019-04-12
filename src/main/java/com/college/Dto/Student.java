@@ -1,8 +1,6 @@
 package com.college.dto;
 
 import java.io.Serializable;
-import java.sql.Blob;
-import java.util.Calendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -61,6 +59,17 @@ public class Student implements Serializable {
 	private String usn;
 	private String password;
 	
+	private boolean active;
+	
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	public String getUsn() {
 		return usn;
 	}

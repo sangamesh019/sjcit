@@ -4,26 +4,40 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.college.dto.Faculty;
 import com.college.dto.StuAssignment;
 import com.college.dto.Student;
 import com.college.exeption.StudentException;
 import com.college.repository.AssignmentRepository;
+import com.college.repository.FacultyRepository;
 import com.college.repository.StudentRepository;
 
 @Component
 public class StudentService {
 
+
+	EntityManager em;
+	
 	@Autowired
 	StudentRepository studentRepository;
 
 	@Autowired
 	AssignmentRepository assignmentRepository;
 	
+	@Autowired
+	FacultyRepository facultyRepository;
+	
+	/**
+	 * 
+	 * @param student
+	 * @return
+	 */
 	public Student signUpStudent(Student student) {
 		if (!studentRepository.findByEmail(student.getEmail()).isEmpty()
 				|| !studentRepository.findByMNumber(student.getmNumber()).isEmpty()) {
@@ -34,18 +48,74 @@ public class StudentService {
 		return save;
 	}
 	
+	/**
+	 * 
+	 * @param photo
+	 * @param phNumber
+	 * @return
+	 * @throws IOException
+	 */
 	public Student signUpStudentPhoto(MultipartFile photo, String phNumber) throws IOException {
 		List<Student> stuList = studentRepository.findByMNumber(phNumber);
 		stuList.get(0).setPhoto(photo.getBytes());
 		Student saveUpdate = studentRepository.save(stuList.get(0));
 		return saveUpdate;
 	}
-
-	public List<Student> getStudent(String name) {
-		List<Student> save = studentRepository.findByEmail(name);
+	
+	/**
+	 * 
+	 * @param faculty
+	 * @return
+	 */
+	public Faculty signUpFaculty(Faculty faculty) {
+		if (!facultyRepository.findByEmail(faculty.getEmail()).isEmpty()
+				|| !facultyRepository.findByMNumber(faculty.getmNumber()).isEmpty()) {
+			throw new StudentException(
+					"Email or mobile # id already exists " + faculty.getEmail() + "/ " + faculty.getmNumber());
+		}
+		Faculty save = facultyRepository.save(faculty);
 		return save;
 	}
+	
+	/**
+	 * 
+	 * @param photo
+	 * @param email
+	 * @return
+	 * @throws IOException
+	 */
+	public Faculty signUpFacPhoto(MultipartFile photo, String email) throws IOException {
+		List<Faculty> stuList = facultyRepository.findByEmail(email);
+		stuList.get(0).setPhoto(photo.getBytes());
+		Faculty saveUpdate = facultyRepository.save(stuList.get(0));
+		return saveUpdate;
+	}
 
+	/**
+	 * 
+	 * @param usn
+	 * @return
+	 */
+	public Student getStudent(String usn) {
+		Student save = studentRepository.findByUsn(usn);
+		return save;
+	}
+	
+	/**
+	 * 
+	 * @param usn
+	 * @return
+	 */
+	public Faculty getFaculty(String email) {
+		List<Faculty> save = facultyRepository.findByEmail(email);
+		return save.get(0);
+	}
+	
+
+	/**
+	 * 
+	 * @return
+	 */
 	public List<Student> getAllStudent() {
 		List<Student> save = studentRepository.findAll();
 		return save;
@@ -83,4 +153,23 @@ public class StudentService {
 		boolean result = (stu != null ? true : false);
 		return result;
 	}
+	
+	public boolean loginFaculty(String usn, String pass){
+		Faculty stu = facultyRepository.findByEmailAndPassword(usn, pass);
+		boolean result = (stu != null ? true : false);
+		return result;
+	}
+	
+	
+	public boolean updateStudents(){
+		em.createQuery("update Student set name = :name")
+		.setParameter("active", true)
+		.executeUpdate();
+		return false;
+	}
+	
+	/*public boolean updateStudent(String usn, String status){
+		studentRepository.updateStatus(usn, status);
+		return false;
+	}*/
 }

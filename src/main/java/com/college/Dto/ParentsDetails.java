@@ -8,9 +8,9 @@ public class ParentsDetails implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private String fatherName;
-	private String fOccuption;
+	private String fOccupation;
 	private String motherName;
-	private String mOccuption;
+	private String mOccupation;
 	private String aIncome;
 	
 	public String getFatherName() {
@@ -19,23 +19,24 @@ public class ParentsDetails implements Serializable {
 	public void setFatherName(String fatherName) {
 		this.fatherName = fatherName;
 	}
-	public String getfOccuption() {
-		return fOccuption;
+	
+	public String getfOccupation() {
+		return fOccupation;
 	}
-	public void setfOccuption(String fOccuption) {
-		this.fOccuption = fOccuption;
+	public void setfOccupation(String fOccupation) {
+		this.fOccupation = fOccupation;
+	}
+	public String getmOccupation() {
+		return mOccupation;
+	}
+	public void setmOccupation(String mOccupation) {
+		this.mOccupation = mOccupation;
 	}
 	public String getMotherName() {
 		return motherName;
 	}
 	public void setMotherName(String motherName) {
 		this.motherName = motherName;
-	}
-	public String getmOccuption() {
-		return mOccuption;
-	}
-	public void setmOccuption(String mOccuption) {
-		this.mOccuption = mOccuption;
 	}
 	public String getaIncome() {
 		return aIncome;

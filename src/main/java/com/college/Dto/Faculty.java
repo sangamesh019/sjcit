@@ -1,13 +1,14 @@
 package com.college.dto;
 
 import java.io.Serializable;
-import java.util.Calendar;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -29,16 +30,67 @@ public class Faculty implements Serializable {
 
 	@NotNull
 	private String designation;
+	@NotNull
 	private String fName;
 	private String lName;
 	private String mName;
-	private Calendar DOB;
+	private String DOB;
 	private String gender;
 	private String address;
+	@NotNull
 	private String branch;
+	private String category;
+	private String aIncome;
+	@Column(unique=true)
+	private String adhNumber;
+	@Column(unique=true)
 	private String mNumber;
+	@Column(unique=true)
 	private String email;
-	private String photo;
+	private String password;
+	@Lob
+	private byte[] photo;
+	private String expYears;
+	
+	public String getExpYears() {
+		return expYears;
+	}
+
+	public void setExpYears(String expYears) {
+		this.expYears = expYears;
+	}
+
+	public String getAdhNumber() {
+		return adhNumber;
+	}
+
+	public void setAdhNumber(String adhNumber) {
+		this.adhNumber = adhNumber;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getaIncome() {
+		return aIncome;
+	}
+
+	public void setaIncome(String aIncome) {
+		this.aIncome = aIncome;
+	}
 
 	public String getDesignation() {
 		return designation;
@@ -72,11 +124,11 @@ public class Faculty implements Serializable {
 		this.mName = mName;
 	}
 
-	public Calendar getDOB() {
+	public String getDOB() {
 		return DOB;
 	}
 
-	public void setDOB(Calendar dOB) {
+	public void setDOB(String dOB) {
 		DOB = dOB;
 	}
 
@@ -120,12 +172,12 @@ public class Faculty implements Serializable {
 		this.email = email;
 	}
 
-	public String getPhoto() {
+	public byte[] getPhoto() {
 		return photo;
 	}
 
-	public void setPhoto(String photo) {
+	public void setPhoto(byte[] photo) {
 		this.photo = photo;
 	}
-
+	
 }
