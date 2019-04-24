@@ -14,4 +14,7 @@ public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 	List<Faculty> findByMNumber(String mobileNumber);
 	Faculty findByEmailAndPassword(String email, String pass);
 	
+	List<Faculty> findByBranch(String branch);
+	List<Faculty> findAll();
+	
 }

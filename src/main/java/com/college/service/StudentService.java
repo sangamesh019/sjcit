@@ -11,11 +11,15 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.college.dto.Faculty;
+import com.college.dto.FacultyProfile;
+import com.college.dto.FacultySubject;
 import com.college.dto.StuAssignment;
 import com.college.dto.Student;
 import com.college.exeption.StudentException;
 import com.college.repository.AssignmentRepository;
+import com.college.repository.FacEditprofile;
 import com.college.repository.FacultyRepository;
+import com.college.repository.FacultySubjectRepository;
 import com.college.repository.StudentRepository;
 
 @Component
@@ -33,6 +37,12 @@ public class StudentService {
 	@Autowired
 	FacultyRepository facultyRepository;
 	
+	@Autowired
+	FacultySubjectRepository facultySubjectRepository;
+	
+	@Autowired
+	FacEditprofile facEditprofile;
+	
 	/**
 	 * 
 	 * @param student
@@ -45,6 +55,7 @@ public class StudentService {
 					"Email or mobile # id already exists " + student.getEmail() + "/ " + student.getmNumber());
 		}
 		Student save = studentRepository.save(student);
+		
 		return save;
 	}
 	
@@ -74,8 +85,45 @@ public class StudentService {
 					"Email or mobile # id already exists " + faculty.getEmail() + "/ " + faculty.getmNumber());
 		}
 		Faculty save = facultyRepository.save(faculty);
+		
+		FacultyProfile facultyProfile = new FacultyProfile();
+		facultyProfile.setEmail(faculty.getEmail());
+		facultyProfile.setDesignation(faculty.getDesignation());
+		facultyProfile.setmNumber(faculty.getmNumber());
+		
+		facEditprofile.save(facultyProfile);
 		return save;
 	}
+
+	public FacultyProfile editFaculty(FacultyProfile faculty) {
+		
+		FacultyProfile editFacultyProfile = facEditprofile.findByEmail(faculty.getEmail());
+		
+		editFacultyProfile.setBloodGroup(faculty.getBloodGroup());
+		editFacultyProfile.setDesignation(faculty.getDesignation());
+		editFacultyProfile.setMaritalStatus(faculty.getMaritalStatus());
+		editFacultyProfile.setmNumber(faculty.getmNumber());
+		editFacultyProfile.setPaddress(faculty.getPaddress());
+		editFacultyProfile.setTaddress(faculty.getTaddress());
+		
+		editFacultyProfile.setEducationDetailsX(faculty.getEducationDetailsX());
+		editFacultyProfile.setEducationDetailsXII(faculty.getEducationDetailsXII());
+		editFacultyProfile.setEducationDetailsDiploma(faculty.getEducationDetailsDiploma());
+		editFacultyProfile.setEducationDetailsUG(faculty.getEducationDetailsUG());
+		editFacultyProfile.setEducationDetailsPG(faculty.getEducationDetailsPG());
+		editFacultyProfile.setEducationDetailsPHD(faculty.getEducationDetailsPHD());
+		editFacultyProfile.setEducationDetailsOther1(faculty.getEducationDetailsOther1());
+		editFacultyProfile.setEducationDetailsOther2(faculty.getEducationDetailsOther2());
+		
+		
+		editFacultyProfile.setEmpDetails(faculty.getEmpDetails());
+		
+		editFacultyProfile.setExWorkshop(faculty.getExWorkshop());
+		
+		FacultyProfile save = facEditprofile.save(editFacultyProfile);
+		return save;
+	}
+
 	
 	/**
 	 * 
@@ -111,7 +159,46 @@ public class StudentService {
 		return save.get(0);
 	}
 	
+	/**
+	 * 
+	 * @param usn
+	 * @return
+	 */
+	public List<Faculty> getFacultyList(String branch) {
+		List<Faculty> save = facultyRepository.findByBranch(branch);
+		return save;
+	}
+	
+	/**
+	 * 
+	 * @param usn
+	 * @return
+	 */
+	public List<Faculty> getAllFacultyList() {
+		List<Faculty> save = facultyRepository.findAll();
+		return save;
+	}
+	/**
+	 * 
+	 * @param usn
+	 * @return
+	 */
+	public FacultySubject assignSubject(FacultySubject facultySubject) {
+		FacultySubject save = facultySubjectRepository.save(facultySubject);
+		return save;
+	}
+	
 
+	/**
+	 * 
+	 * @param usn
+	 * @return
+	 */
+	public List<FacultySubject> getSubjectAssigned(String branch, String facEmail) {
+		List<FacultySubject> save = facultySubjectRepository.findByBranchAndFacEmail(branch,facEmail);
+		return save;
+	}
+	
 	/**
 	 * 
 	 * @return
@@ -121,7 +208,7 @@ public class StudentService {
 		return save;
 	}
 
-	public StuAssignment uploadAssignment(MultipartFile file, StuAssignment stuAssignment) throws IOException {
+	public StuAssignment uploadAssignment(MultipartFile file, StuAssignment stuAssignment) throws StudentException, IOException {
 		stuAssignment.setFileName(stuAssignment.getBranch() +"_"+ stuAssignment.getSem() +"_"+ stuAssignment.getSubject());
 		stuAssignment.setData(file.getBytes());
 		stuAssignment.setDocumentType(file.getContentType());
@@ -135,15 +222,15 @@ public class StudentService {
 		return s;
 	}
 	
-	public List<StuAssignment> listAllAssignment() {
+	public List<StuAssignment> listAllAssignment(String branch, String sem) {
 		List<StuAssignment> listOfAssignResp = assignmentRepository.findAll();
 
 		StuAssignment find = new StuAssignment();
-		find.setBranch("EEE");
-		find.setSem("1");
+		find.setBranch(branch);
+		find.setSem(sem);
 		
 		List<StuAssignment> listOfAssign = listOfAssignResp.stream()
-							.filter(assignmentFilter -> (assignmentFilter.getBranch().equals("EEE") && assignmentFilter.getSem().equals("1")))
+							.filter(assignmentFilter -> (assignmentFilter.getBranch().equals(branch) && assignmentFilter.getSem().equals(sem)))
 							.collect(Collectors.toList());		
 		return listOfAssign;
 	}
