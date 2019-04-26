@@ -19,6 +19,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 	List<Student> findByEmail(String name);
 	Student findByUsn(String usn);
 	List<Student> findByMNumber(String mnumber);
+	List<Student> findByBranch(String branch);
 	
 	@Override
 	List<Student> findAll();

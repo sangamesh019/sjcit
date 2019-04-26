@@ -15,7 +15,12 @@ public class Events implements Serializable {
 	
 	@Id
 	@GeneratedValue
-	String ID;
+	private Long id;
+	
+	public Long getId() {
+		return id;
+	}
+	
 	String eventType;
 	String eventDetails;
 	Boolean allowed;

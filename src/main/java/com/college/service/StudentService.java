@@ -2,6 +2,7 @@ package com.college.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -10,17 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.college.dto.Events;
 import com.college.dto.Faculty;
 import com.college.dto.FacultyProfile;
 import com.college.dto.FacultySubject;
 import com.college.dto.StuAssignment;
 import com.college.dto.Student;
+import com.college.dto.StudentResults;
 import com.college.exeption.StudentException;
 import com.college.repository.AssignmentRepository;
+import com.college.repository.EventRepository;
 import com.college.repository.FacEditprofile;
 import com.college.repository.FacultyRepository;
 import com.college.repository.FacultySubjectRepository;
 import com.college.repository.StudentRepository;
+import com.college.repository.StudentResultRepo;
 
 @Component
 public class StudentService {
@@ -43,6 +48,11 @@ public class StudentService {
 	@Autowired
 	FacEditprofile facEditprofile;
 	
+	@Autowired
+	StudentResultRepo studentResultRepo;
+	
+	@Autowired
+	EventRepository uploadEventRepo;
 	/**
 	 * 
 	 * @param student
@@ -93,6 +103,11 @@ public class StudentService {
 		
 		facEditprofile.save(facultyProfile);
 		return save;
+	}
+	
+	public StudentResults uploadResults(StudentResults res){
+		StudentResults re = studentResultRepo.save(res);
+		return re;
 	}
 
 	public FacultyProfile editFaculty(FacultyProfile faculty) {
@@ -154,6 +169,21 @@ public class StudentService {
 	 * @param usn
 	 * @return
 	 */
+	public List<Student> getStudentByBranch(String branch) {
+		List<Student> save = studentRepository.findByBranch(branch);
+		return save;
+	}
+	
+	public List<StudentResults> getStudentResults(String usn){
+		List<StudentResults> res = studentResultRepo.findByusn(usn);
+		return res;
+	}
+	
+	/**
+	 * 
+	 * @param usn
+	 * @return
+	 */
 	public Faculty getFaculty(String email) {
 		List<Faculty> save = facultyRepository.findByEmail(email);
 		return save.get(0);
@@ -186,6 +216,21 @@ public class StudentService {
 	public FacultySubject assignSubject(FacultySubject facultySubject) {
 		FacultySubject save = facultySubjectRepository.save(facultySubject);
 		return save;
+	}
+	
+	public Events uploadEvents(Events event){
+		return uploadEventRepo.save(event);
+	}
+	
+	public List<Events> getAllEvents(){
+		return uploadEventRepo.findAll();
+	}
+	
+	public Events updateEvents(Events ev){
+		Optional<Events> up = uploadEventRepo.findById(ev.getId());
+		Events s = up.get();
+		s.setAllowed(ev.getAllowed());
+		return  uploadEventRepo.save(s);
 	}
 	
 

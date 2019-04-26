@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.college.dto.Events;
 import com.college.dto.Faculty;
 import com.college.dto.FacultyProfile;
 import com.college.dto.FacultySubject;
 import com.college.dto.StuAssignment;
+import com.college.dto.StudentResults;
 import com.college.exeption.StudentException;
 import com.college.service.StudentService;
 
@@ -48,6 +50,12 @@ public class FacultyController {
 	public ResponseEntity<FacultyProfile> editFaculty(@Valid @RequestBody FacultyProfile faculty) {
 		FacultyProfile status = service.editFaculty(faculty);
 		return new ResponseEntity<FacultyProfile>(status, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/uploadResults", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<StudentResults> uploadResults(@Valid @RequestBody StudentResults results) {
+		StudentResults status = service.uploadResults(results);
+		return new ResponseEntity<StudentResults>(status, HttpStatus.OK);
 	}
 
 	@PostMapping(value = "/signUpFacultyPhoto", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -80,7 +88,26 @@ public class FacultyController {
 		FacultySubject subj = service.assignSubject(sub);
 		return new ResponseEntity<FacultySubject>(subj, HttpStatus.OK);
 	}
+	
+	@PostMapping(value = "/uploadEvents", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Events> uploadEvents(@RequestBody Events event) {
+		Events subj = service.uploadEvents(event);
+		return new ResponseEntity<Events>(subj, HttpStatus.OK);
+	}
+	
 
+	@PostMapping(value = "/updateEvents", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Events> updateEvents(@RequestBody Events event) {
+		Events subj = service.updateEvents(event);
+		return new ResponseEntity<Events>(subj, HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "/getAllEvents")
+	public ResponseEntity<List<Events>> getAllEvents() {
+		List<Events> subj = service.getAllEvents();
+		return new ResponseEntity<List<Events>>(subj, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/getSubjectAssigned/{branch}/{email}")
 	public ResponseEntity<List<FacultySubject>> getSubjectAssigned(@PathVariable String branch,
 			@PathVariable String email) {
@@ -133,4 +160,6 @@ public class FacultyController {
 		fout.close();
 		return "File is upload successfully";
 	}
+	
+	
 }

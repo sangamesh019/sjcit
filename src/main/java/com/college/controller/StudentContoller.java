@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.college.dto.Student;
+import com.college.dto.StudentResults;
 import com.college.service.StudentService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -51,6 +52,18 @@ public class StudentContoller {
 	@GetMapping(value = "/student/{usn}")
 	public Student getStudent(@PathVariable String usn) {
 		Student studs = service.getStudent(usn);
+		return studs;
+	}
+	
+	@GetMapping(value = "/studentBranch/{branch}")
+	public List<Student> getStudentByBranch(@PathVariable String branch) {
+		List<Student> studs = service.getStudentByBranch(branch);
+		return studs;
+	}
+	
+	@GetMapping(value = "/studentResults/{usn}")
+	public List<StudentResults> studentResults(@PathVariable String usn) {
+		List<StudentResults> studs = service.getStudentResults(usn);
 		return studs;
 	}
 	
