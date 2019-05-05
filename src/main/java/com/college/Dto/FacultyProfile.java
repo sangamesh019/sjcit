@@ -23,8 +23,8 @@ public class FacultyProfile implements Serializable {
 
 	@NotNull
 	private String designation;
-	private String anIncome;
-
+//	private String anIncome;
+	private String pfatherName;
 	private Address taddress;
 	private Address paddress;
 	private String maritalStatus;
@@ -36,18 +36,21 @@ public class FacultyProfile implements Serializable {
 
 	private String bloodGroup;
 	// Education
-	private EducationDetails educationDetailsX;
-	private EducationDetails educationDetailsXII;
-	private EducationDetails educationDetailsDiploma;
-	private EducationDetails educationDetailsUG;
-	private EducationDetails educationDetailsPG;
-	private EducationDetails educationDetailsPHD;
-	private EducationDetails educationDetailsOther1;
-	private EducationDetails educationDetailsOther2;
+	private EducationDetails[] educationDetails;
+
 	// emp details
-	private EmpDetails empDetails;
+//	private EmpDetails empDetails;
 
 	private String exWorkshop;
+
+	
+	public String getPfatherName() {
+		return pfatherName;
+	}
+
+	public void setPfatherName(String pfatherName) {
+		this.pfatherName = pfatherName;
+	}
 
 	public Address getTaddress() {
 		return taddress;
@@ -81,84 +84,12 @@ public class FacultyProfile implements Serializable {
 		this.bloodGroup = bloodGroup;
 	}
 
-	public String getAnIncome() {
-		return anIncome;
+	public EducationDetails[] getEducationDetails() {
+		return educationDetails;
 	}
 
-	public void setAnIncome(String anIncome) {
-		this.anIncome = anIncome;
-	}
-
-	public EducationDetails getEducationDetailsX() {
-		return educationDetailsX;
-	}
-
-	public void setEducationDetailsX(EducationDetails educationDetailsX) {
-		this.educationDetailsX = educationDetailsX;
-	}
-
-	public EducationDetails getEducationDetailsXII() {
-		return educationDetailsXII;
-	}
-
-	public void setEducationDetailsXII(EducationDetails educationDetailsXII) {
-		this.educationDetailsXII = educationDetailsXII;
-	}
-
-	public EducationDetails getEducationDetailsDiploma() {
-		return educationDetailsDiploma;
-	}
-
-	public void setEducationDetailsDiploma(EducationDetails educationDetailsDiploma) {
-		this.educationDetailsDiploma = educationDetailsDiploma;
-	}
-
-	public EducationDetails getEducationDetailsUG() {
-		return educationDetailsUG;
-	}
-
-	public void setEducationDetailsUG(EducationDetails educationDetailsUG) {
-		this.educationDetailsUG = educationDetailsUG;
-	}
-
-	public EducationDetails getEducationDetailsPG() {
-		return educationDetailsPG;
-	}
-
-	public void setEducationDetailsPG(EducationDetails educationDetailsPG) {
-		this.educationDetailsPG = educationDetailsPG;
-	}
-
-	public EducationDetails getEducationDetailsPHD() {
-		return educationDetailsPHD;
-	}
-
-	public void setEducationDetailsPHD(EducationDetails educationDetailsPHD) {
-		this.educationDetailsPHD = educationDetailsPHD;
-	}
-
-	public EducationDetails getEducationDetailsOther1() {
-		return educationDetailsOther1;
-	}
-
-	public void setEducationDetailsOther1(EducationDetails educationDetailsOther1) {
-		this.educationDetailsOther1 = educationDetailsOther1;
-	}
-
-	public EducationDetails getEducationDetailsOther2() {
-		return educationDetailsOther2;
-	}
-
-	public void setEducationDetailsOther2(EducationDetails educationDetailsOther2) {
-		this.educationDetailsOther2 = educationDetailsOther2;
-	}
-
-	public EmpDetails getEmpDetails() {
-		return empDetails;
-	}
-
-	public void setEmpDetails(EmpDetails empDetails) {
-		this.empDetails = empDetails;
+	public void setEducationDetails(EducationDetails[] educationDetails) {
+		this.educationDetails = educationDetails;
 	}
 
 	public String getExWorkshop() {

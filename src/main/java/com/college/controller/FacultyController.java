@@ -51,7 +51,7 @@ public class FacultyController {
 		FacultyProfile status = service.editFaculty(faculty);
 		return new ResponseEntity<FacultyProfile>(status, HttpStatus.OK);
 	}
-	
+		
 	@PostMapping(value = "/uploadResults", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<StudentResults> uploadResults(@Valid @RequestBody StudentResults results) {
 		StudentResults status = service.uploadResults(results);
@@ -68,6 +68,12 @@ public class FacultyController {
 	@GetMapping(value = "/faculty/{email}")
 	public Faculty getStudent(@PathVariable String email) {
 		Faculty studs = service.getFaculty(email);
+		return studs;
+	}
+	
+	@GetMapping(value = "/facultyEdit/{email}")
+	public FacultyProfile getFacProfile(@PathVariable String email) {
+		FacultyProfile studs = service.getFacultyProfile(email);
 		return studs;
 	}
 

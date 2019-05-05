@@ -111,31 +111,42 @@ public class StudentService {
 	}
 
 	public FacultyProfile editFaculty(FacultyProfile faculty) {
-		
+		FacultyProfile newprofile = new FacultyProfile();
+		FacultyProfile save = new FacultyProfile();
 		FacultyProfile editFacultyProfile = facEditprofile.findByEmail(faculty.getEmail());
-		
+		if(editFacultyProfile != null){
 		editFacultyProfile.setBloodGroup(faculty.getBloodGroup());
 		editFacultyProfile.setDesignation(faculty.getDesignation());
 		editFacultyProfile.setMaritalStatus(faculty.getMaritalStatus());
 		editFacultyProfile.setmNumber(faculty.getmNumber());
 		editFacultyProfile.setPaddress(faculty.getPaddress());
 		editFacultyProfile.setTaddress(faculty.getTaddress());
+		editFacultyProfile.setEmail(faculty.getEmail());
 		
-		editFacultyProfile.setEducationDetailsX(faculty.getEducationDetailsX());
-		editFacultyProfile.setEducationDetailsXII(faculty.getEducationDetailsXII());
-		editFacultyProfile.setEducationDetailsDiploma(faculty.getEducationDetailsDiploma());
-		editFacultyProfile.setEducationDetailsUG(faculty.getEducationDetailsUG());
-		editFacultyProfile.setEducationDetailsPG(faculty.getEducationDetailsPG());
-		editFacultyProfile.setEducationDetailsPHD(faculty.getEducationDetailsPHD());
-		editFacultyProfile.setEducationDetailsOther1(faculty.getEducationDetailsOther1());
-		editFacultyProfile.setEducationDetailsOther2(faculty.getEducationDetailsOther2());
+		editFacultyProfile.setEducationDetails(faculty.getEducationDetails());
 		
-		
-		editFacultyProfile.setEmpDetails(faculty.getEmpDetails());
-		
-		editFacultyProfile.setExWorkshop(faculty.getExWorkshop());
-		
-		FacultyProfile save = facEditprofile.save(editFacultyProfile);
+//		editFacultyProfile.setEmpDetails(faculty.getEmpDetails());
+//		
+//		editFacultyProfile.setExWorkshop(faculty.getExWorkshop());
+		save = facEditprofile.save(editFacultyProfile);
+		} else {
+			newprofile.setBloodGroup(faculty.getBloodGroup());
+			newprofile.setDesignation(faculty.getDesignation());
+			newprofile.setMaritalStatus(faculty.getMaritalStatus());
+			newprofile.setmNumber(faculty.getmNumber());
+			newprofile.setPaddress(faculty.getPaddress());
+			newprofile.setTaddress(faculty.getTaddress());
+			
+			newprofile.setEducationDetails(faculty.getEducationDetails());
+			newprofile.setEmail(faculty.getEmail());
+			
+//			newprofile.setEmpDetails(faculty.getEmpDetails());
+//			
+//			newprofile.setExWorkshop(faculty.getExWorkshop());
+			save = facEditprofile.save(newprofile);
+				
+		}
+//		FacultyProfile save = facEditprofile.save(editFacultyProfile);
 		return save;
 	}
 
@@ -184,6 +195,11 @@ public class StudentService {
 	 * @param usn
 	 * @return
 	 */
+	public FacultyProfile getFacultyProfile(String email) {
+		FacultyProfile save = facEditprofile.findByEmail(email);
+		return save;
+	}
+	
 	public Faculty getFaculty(String email) {
 		List<Faculty> save = facultyRepository.findByEmail(email);
 		return save.get(0);
