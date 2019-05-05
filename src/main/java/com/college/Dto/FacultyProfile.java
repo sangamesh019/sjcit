@@ -34,6 +34,7 @@ public class FacultyProfile implements Serializable {
 	@Column(unique = true)
 	private String email;
 
+	private String password;
 	private String bloodGroup;
 	// Education
 	private EducationDetails[] educationDetails;
@@ -44,6 +45,15 @@ public class FacultyProfile implements Serializable {
 	private String exWorkshop;
 
 	
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	public String getPfatherName() {
 		return pfatherName;
 	}

@@ -64,6 +64,27 @@ public class StudentService {
 			throw new StudentException(
 					"Email or mobile # id already exists " + student.getEmail() + "/ " + student.getmNumber());
 		}
+		List<Student> Studentlist = studentRepository.findByEmail(student.getEmail());
+		Student edit = Studentlist.get(0);
+//		studentRepository.delete(edit);
+		edit.setActive(true);
+		edit.setAdhNumber(student.getAdhNumber());
+		edit.setBranch(student.getBranch());
+		edit.setcAddress(student.getcAddress());
+		edit.setCategaroy(student.getCategaroy());
+		edit.setDob(student.getDob());
+		edit.setEmail(student.getEmail());
+		edit.setfName(student.getfName());
+		edit.setGender(student.getGender());
+		edit.setlName(student.getlName());
+		edit.setmName(student.getmName());
+		edit.setmNumber(student.getmNumber());
+		edit.setpAddress(student.getpAddress());
+		edit.setParentsDetails(student.getParentsDetails());
+		edit.setPassword(student.getPassword());
+		edit.setSem(student.getSem());
+		edit.setUsn(student.getUsn());
+		
 		Student save = studentRepository.save(student);
 		
 		return save;
@@ -115,20 +136,27 @@ public class StudentService {
 		FacultyProfile save = new FacultyProfile();
 		FacultyProfile editFacultyProfile = facEditprofile.findByEmail(faculty.getEmail());
 		if(editFacultyProfile != null){
-		editFacultyProfile.setBloodGroup(faculty.getBloodGroup());
+			List<Faculty> facultyList = facultyRepository.findByEmail(faculty.getEmail());
+			Faculty edit = facultyList.get(0);
+			edit.setPassword(faculty.getPassword());
+			facultyRepository.save(edit);
+			
+			facEditprofile.delete(editFacultyProfile);
+			editFacultyProfile.setBloodGroup(faculty.getBloodGroup());
 		editFacultyProfile.setDesignation(faculty.getDesignation());
 		editFacultyProfile.setMaritalStatus(faculty.getMaritalStatus());
 		editFacultyProfile.setmNumber(faculty.getmNumber());
 		editFacultyProfile.setPaddress(faculty.getPaddress());
 		editFacultyProfile.setTaddress(faculty.getTaddress());
 		editFacultyProfile.setEmail(faculty.getEmail());
-		
+		editFacultyProfile.setPassword(faculty.getPassword());
 		editFacultyProfile.setEducationDetails(faculty.getEducationDetails());
 		
 //		editFacultyProfile.setEmpDetails(faculty.getEmpDetails());
 //		
 //		editFacultyProfile.setExWorkshop(faculty.getExWorkshop());
 		save = facEditprofile.save(editFacultyProfile);
+		
 		} else {
 			newprofile.setBloodGroup(faculty.getBloodGroup());
 			newprofile.setDesignation(faculty.getDesignation());
@@ -139,7 +167,8 @@ public class StudentService {
 			
 			newprofile.setEducationDetails(faculty.getEducationDetails());
 			newprofile.setEmail(faculty.getEmail());
-			
+		
+			newprofile.setPassword(faculty.getPassword());
 //			newprofile.setEmpDetails(faculty.getEmpDetails());
 //			
 //			newprofile.setExWorkshop(faculty.getExWorkshop());
