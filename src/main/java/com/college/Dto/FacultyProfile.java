@@ -21,6 +21,9 @@ public class FacultyProfile implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	private String fName;
+	private String mName;
+	private String lName;
 	@NotNull
 	private String designation;
 //	private String anIncome;
@@ -36,16 +39,57 @@ public class FacultyProfile implements Serializable {
 
 	private String password;
 	private String bloodGroup;
+	private String aboutMe;
 	// Education
+	@Column(columnDefinition="BLOB")
 	private EducationDetails[] educationDetails;
-
+	private String lnbr;
 	// emp details
 //	private EmpDetails empDetails;
 
+	
 	private String exWorkshop;
 
-	
-	
+	public String getAboutMe() {
+		return aboutMe;
+	}
+
+	public void setAboutMe(String aboutMe) {
+		this.aboutMe = aboutMe;
+	}
+
+	public String getfName() {
+		return fName;
+	}
+
+	public void setfName(String fName) {
+		this.fName = fName;
+	}
+
+	public String getmName() {
+		return mName;
+	}
+
+	public void setmName(String mName) {
+		this.mName = mName;
+	}
+
+	public String getlName() {
+		return lName;
+	}
+
+	public void setlName(String lName) {
+		this.lName = lName;
+	}
+
+	public String getLnbr() {
+		return lnbr;
+	}
+
+	public void setLnbr(String lnbr) {
+		this.lnbr = lnbr;
+	}
+
 	public String getPassword() {
 		return password;
 	}

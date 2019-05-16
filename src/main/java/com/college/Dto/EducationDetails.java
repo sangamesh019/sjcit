@@ -13,7 +13,14 @@ public class EducationDetails implements Serializable {
 	private String eqYear;
 	private String eqSpecialization;
 	private String eqGPA;
+	private String eqUniv;
 	
+	public String getEqUniv() {
+		return eqUniv;
+	}
+	public void setEqUniv(String eqUniv) {
+		this.eqUniv = eqUniv;
+	}
 	public String getEqLevel() {
 		return eqLevel;
 	}

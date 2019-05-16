@@ -137,9 +137,21 @@ public class StudentService {
 		FacultyProfile editFacultyProfile = facEditprofile.findByEmail(faculty.getEmail());
 		if(editFacultyProfile != null){
 			List<Faculty> facultyList = facultyRepository.findByEmail(faculty.getEmail());
+			if(faculty.getPassword() != null){
 			Faculty edit = facultyList.get(0);
+			edit.setfName(faculty.getfName());
+			edit.setlName(faculty.getlName());
+			edit.setmName(faculty.getmName());
 			edit.setPassword(faculty.getPassword());
 			facultyRepository.save(edit);
+			} else {
+				Faculty edit = facultyList.get(0);
+				edit.setfName(faculty.getfName());
+				edit.setlName(faculty.getlName());
+				edit.setmName(faculty.getmName());
+//				edit.setPassword(faculty.getPassword());
+				facultyRepository.save(edit);	
+			}
 			
 			facEditprofile.delete(editFacultyProfile);
 			editFacultyProfile.setBloodGroup(faculty.getBloodGroup());
@@ -150,7 +162,10 @@ public class StudentService {
 		editFacultyProfile.setTaddress(faculty.getTaddress());
 		editFacultyProfile.setEmail(faculty.getEmail());
 		editFacultyProfile.setPassword(faculty.getPassword());
+		editFacultyProfile.setLnbr(faculty.getLnbr());
+		editFacultyProfile.setPfatherName(faculty.getPfatherName());
 		editFacultyProfile.setEducationDetails(faculty.getEducationDetails());
+		editFacultyProfile.setAboutMe(faculty.getAboutMe());
 		
 //		editFacultyProfile.setEmpDetails(faculty.getEmpDetails());
 //		
@@ -164,9 +179,11 @@ public class StudentService {
 			newprofile.setmNumber(faculty.getmNumber());
 			newprofile.setPaddress(faculty.getPaddress());
 			newprofile.setTaddress(faculty.getTaddress());
-			
+			newprofile.setLnbr(faculty.getLnbr());
+			newprofile.setPfatherName(faculty.getPfatherName());	
 			newprofile.setEducationDetails(faculty.getEducationDetails());
 			newprofile.setEmail(faculty.getEmail());
+			newprofile.setAboutMe(faculty.getAboutMe());
 		
 			newprofile.setPassword(faculty.getPassword());
 //			newprofile.setEmpDetails(faculty.getEmpDetails());
