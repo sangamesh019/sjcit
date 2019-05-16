@@ -329,15 +329,16 @@ public class StudentService {
 		return s;
 	}
 	
-	public List<StuAssignment> listAllAssignment(String branch, String sem) {
+	public List<StuAssignment> listAllAssignment(String branch, String sem,String type) {
 		List<StuAssignment> listOfAssignResp = assignmentRepository.findAll();
 
 		StuAssignment find = new StuAssignment();
 		find.setBranch(branch);
 		find.setSem(sem);
+		find.setType(type);
 		
 		List<StuAssignment> listOfAssign = listOfAssignResp.stream()
-							.filter(assignmentFilter -> (assignmentFilter.getBranch().equals(branch) && assignmentFilter.getSem().equals(sem)))
+							.filter(assignmentFilter -> (assignmentFilter.getType().equals(type) && assignmentFilter.getBranch().equals(branch) && assignmentFilter.getSem().equals(sem)))
 							.collect(Collectors.toList());		
 		return listOfAssign;
 	}

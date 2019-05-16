@@ -150,10 +150,10 @@ public class FacultyController {
 				.body(new ByteArrayResource(assignment.getData()));
 	}
 
-	@GetMapping(value = "/listAllAssignments/{branch}/{sem}")
-	public List<StuAssignment> listAllAssignment(@PathVariable("branch") String branch, @PathVariable("sem") String sem)
+	@GetMapping(value = "/listAllAssignments/{branch}/{sem}/{type}")
+	public List<StuAssignment> listAllAssignment(@PathVariable("branch") String branch, @PathVariable("sem") String sem, @PathVariable("type") String type)
 			throws IOException {
-		List<StuAssignment> assignment = service.listAllAssignment(branch, sem);
+		List<StuAssignment> assignment = service.listAllAssignment(branch, sem,type);
 		return assignment;
 	}
 
