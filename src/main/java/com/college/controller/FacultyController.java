@@ -108,6 +108,18 @@ public class FacultyController {
 		return new ResponseEntity<Events>(subj, HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/disable/true", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> EnUser(@RequestBody List<String> users) {
+		String subj = service.updateUserStatus(users, true);
+		return new ResponseEntity<List<String>>(users, HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "/disable/false", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<String>> disableUser(@RequestBody List<String> users) {
+		String subj = service.updateUserStatus(users, false);
+		return new ResponseEntity<List<String>>(users, HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "/getAllEvents")
 	public ResponseEntity<List<Events>> getAllEvents() {
 		List<Events> subj = service.getAllEvents();

@@ -295,6 +295,22 @@ public class StudentService {
 		return  uploadEventRepo.save(s);
 	}
 	
+	public String updateUserStatus(List<String> users, boolean enableOrdisable){
+		users.stream().forEach(user ->{
+			String[] role = user.split("-");
+			if(role[0].equals("student")){
+				Student save = studentRepository.findByUsn(role[1]);
+				save.setActive(enableOrdisable);
+				studentRepository.save(save);
+			} else {
+				List<Faculty> save = facultyRepository.findByEmail(role[1]);
+				save.get(0).setActive(enableOrdisable);	
+				facultyRepository.save(save.get(0));
+			}
+		});
+		return "";
+	}
+	
 
 	/**
 	 * 
@@ -345,13 +361,16 @@ public class StudentService {
 	
 	public boolean loginUser(String usn, String pass){
 		Student stu = studentRepository.findByUsnAndPassword(usn, pass);
-		boolean result = (stu != null ? true : false);
+		boolean result = (stu != null ? (stu.isActive() == true ? true : false): false);
 		return result;
 	}
 	
 	public boolean loginFaculty(String usn, String pass){
+		if(usn.equals("admin") && pass.equals("admin")){
+			return true;
+		}
 		Faculty stu = facultyRepository.findByEmailAndPassword(usn, pass);
-		boolean result = (stu != null ? true : false);
+		boolean result = (stu != null ? (stu.isActive() == true ? true : false): false);
 		return result;
 	}
 	

@@ -52,6 +52,16 @@ public class Faculty implements Serializable {
 	private byte[] photo;
 	private String expYears;
 	
+	private boolean active;
+	
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	public String getExpYears() {
 		return expYears;
 	}
