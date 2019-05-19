@@ -64,27 +64,27 @@ public class StudentService {
 			throw new StudentException(
 					"Email or mobile # id already exists " + student.getEmail() + "/ " + student.getmNumber());
 		}
-		List<Student> Studentlist = studentRepository.findByEmail(student.getEmail());
-		Student edit = Studentlist.get(0);
-//		studentRepository.delete(edit);
-		edit.setActive(true);
-		edit.setAdhNumber(student.getAdhNumber());
-		edit.setBranch(student.getBranch());
-		edit.setcAddress(student.getcAddress());
-		edit.setCategaroy(student.getCategaroy());
-		edit.setDob(student.getDob());
-		edit.setEmail(student.getEmail());
-		edit.setfName(student.getfName());
-		edit.setGender(student.getGender());
-		edit.setlName(student.getlName());
-		edit.setmName(student.getmName());
-		edit.setmNumber(student.getmNumber());
-		edit.setpAddress(student.getpAddress());
-		edit.setParentsDetails(student.getParentsDetails());
-		edit.setPassword(student.getPassword());
-		edit.setSem(student.getSem());
-		edit.setUsn(student.getUsn());
-		
+//		List<Student> Studentlist = studentRepository.findByEmail(student.getEmail());
+//		Student edit = Studentlist.get(0);
+////		studentRepository.delete(edit);
+//		edit.setActive(true);
+//		edit.setAdhNumber(student.getAdhNumber());
+//		edit.setBranch(student.getBranch());
+//		edit.setcAddress(student.getcAddress());
+//		edit.setCategaroy(student.getCategaroy());
+//		edit.setDob(student.getDob());
+//		edit.setEmail(student.getEmail());
+//		edit.setfName(student.getfName());
+//		edit.setGender(student.getGender());
+//		edit.setlName(student.getlName());
+//		edit.setmName(student.getmName());
+//		edit.setmNumber(student.getmNumber());
+//		edit.setpAddress(student.getpAddress());
+//		edit.setParentsDetails(student.getParentsDetails());
+//		edit.setPassword(student.getPassword());
+//		edit.setSem(student.getSem());
+//		edit.setUsn(student.getUsn());
+//		
 		Student save = studentRepository.save(student);
 		
 		return save;
