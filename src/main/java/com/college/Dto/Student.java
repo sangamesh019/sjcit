@@ -56,6 +56,7 @@ public class Student implements Serializable {
 	private byte[] photo;
 	
 	@NotNull
+	@Column(unique=true)
 	private String usn;
 	private String password;
 	

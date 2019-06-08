@@ -37,6 +37,12 @@ public class StudentContoller {
 		return new ResponseEntity<Student>(status, HttpStatus.OK);
 	}
 	
+	@PostMapping(value = "/editStudent", consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Student> editStudent(@Valid @RequestBody Student student) {
+		Student status = service.editStudent(student);
+		return new ResponseEntity<Student>(status, HttpStatus.OK);
+	}
+	
 	@PostMapping(value = "/signUpStudentPhoto", consumes =  MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<Student> setStudentPhoto(@RequestParam("file") MultipartFile studentPhoto,
 			@RequestParam("number") String studentNumber) throws IOException {
